@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 declare var webkitSpeechRecognition: any;
 
@@ -14,7 +15,8 @@ export class VoiceRecognitionService {
 
   constructor() { }
 
-  init() {
+  init() :Observable<string>{
+    return new Observable(observer=>{
 
     this.recognition.interimResults = true;
     this.recognition.lang = 'en-US';
@@ -27,8 +29,15 @@ export class VoiceRecognitionService {
       this.tempWords = transcript;
       console.log(transcript);
       this.wordConcat();
+      observer.next(transcript);
       
     });
+    // Clean up resources when the observer unsubscribes
+    return () => {
+      this.recognition.abort();
+      this.recognition.removeEventListener('result');
+    };
+  });
   }
 
   start() {

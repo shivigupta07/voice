@@ -5,7 +5,7 @@
     <!-- <p  >{{service.text}} </p> -->
 
 <!-- <input type="text" [(ngModel)]="foodName"/> -->
- <input [(ngModel)]="foodName" [value]="service.text"  (input)="onInputChange()" placeholder="Say something..."> 
+ <input [(ngModel)]="foodName" [value]="service.text"  (ngModelChange)="onInputChange()" placeholder="Say something..."> 
 
 <button (click)="Search()">Search</button>
 
